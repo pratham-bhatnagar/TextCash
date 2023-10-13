@@ -11,5 +11,9 @@ export const errors = {
       errorCode: 404,
       status: "User Does not Exist!",
     },
+    INVALID_PASSWORD: {
+      errorCode: 401,
+      status: "Invalid Password!",
+    },
   };
   

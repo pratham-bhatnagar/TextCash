@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cors from "cors";
 import logger from "./services/logger.service";
 import errorHandler from "./errors/error.handler";
+import AuthRoutes from "./auth/auth.routes";
 
 config();
 
@@ -19,6 +20,8 @@ app.use(
     },
   })
 );
+
+app.use("/api/v1/auth", AuthRoutes);
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.json({
