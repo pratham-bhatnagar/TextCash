@@ -74,7 +74,7 @@ app.post("/message", async function (req, res, next) {
       // Check if the user is logged in
       console.log({ timeout: user.sessionTimeout });
       if (new Date() > user.sessionTimeout) {
-        REPLY = "Enter password as 'pass:' to login for 15 minutes.";
+        REPLY = "Enter password as 'pass:<password>' to login for 15 minutes.";
       } else {
         console.log("Prompt passed to OPENAI");
         const res = await chat.sendMessage(
@@ -84,7 +84,7 @@ app.post("/message", async function (req, res, next) {
       }
     } else {
       REPLY =
-        'User not found. Enter password as "pass:" to login for 15 minutes.';
+        'User not found. Enter password as "pass:<password>" to login for 15 minutes.';
     }
   }
   console.log(REPLY);

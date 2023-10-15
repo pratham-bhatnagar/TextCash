@@ -3,7 +3,9 @@ import { OPENAI_API_KEY } from "../constants";
 import {
   get_balance,
   get_current_price,
+  request_crypto,
   send_crypto,
+  send_to_phoneno,
 } from "../services/aiFunctions";
 
 export const chat = createChat({
@@ -77,6 +79,66 @@ export const chat = createChat({
       },
       function: async ({ amount }) => {
         const res = await get_current_price(amount);
+        return res;
+      },
+    },
+
+    {
+      name: "request_crypto",
+      description:
+        "Request money from a phone number, send confirmation message on success",
+      parameters: {
+        type: "object",
+        properties: {
+          userPhoneNo: {
+            type: "string",
+            description:
+              "mobile phone number of user requesting the amount and raising the request",
+          },
+          reuestedPhoneNo: {
+            type: "string",
+            description:
+              "mobile phone number of user from which you want to request money",
+          },
+          amount: {
+            type: "number",
+            description: "the amount of SOL crypto that needs to be requested",
+          },
+          unit: { type: "string" },
+        },
+      },
+      function: async ({ amount, userPhoneNo, reuestedPhoneNo }) => {
+        const res = await request_crypto(amount, userPhoneNo, reuestedPhoneNo);
+        return res;
+      },
+    },
+
+    {
+      name: "send_to_phoneno",
+      description:
+        "send crypto to a phone number (a phone number is different from a wallet address it begins with an country extension like +91 followed by 10 numbers ) . return the status of transaction to user and link if available",
+      parameters: {
+        type: "object",
+        properties: {
+          fromPhoneNo: {
+            type: "string",
+            description:
+              "mobile phone number of user requesting the amount and raising the request",
+          },
+          sendToPhoneNo: {
+            type: "string",
+            description:
+              "mobile phone number of user to which we want to send money",
+          },
+          amount: {
+            type: "number",
+            description: "the amount of SOL crypto that needs to be sent",
+          },
+          unit: { type: "string" },
+        },
+      },
+      function: async ({ amount, userPhoneNo, reuestedPhoneNo }) => {
+        const res = await send_to_phoneno(amount, userPhoneNo, reuestedPhoneNo);
         return res;
       },
     },

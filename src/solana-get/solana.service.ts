@@ -10,8 +10,10 @@ export const getBalnace = async (phone: string) => {
     phone: phone,
   });
   if (!userExists) {
-    logger.info(errors.USER_NOT_FOUND);
-    throw errors.USER_NOT_FOUND;
+    return {
+      success: false,
+      message: "User is not on TextWallet. An invite has been sent to them.",
+    };
   } else {
     const connection = new solanaWeb3.Connection(
       solanaWeb3.clusterApiUrl("devnet"),

@@ -16,7 +16,7 @@ const handleGetBalanceRequest = async (
     const { balance, publicKey } = await getBalnace(phone);
     res.status(201).json({
       success: true,
-      balance_in_sol: balance / LAMPORTS_PER_SOL,
+      balance_in_sol: balance! / LAMPORTS_PER_SOL,
       publicKey: publicKey,
     });
   } catch (error) {
