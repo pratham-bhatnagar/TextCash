@@ -18,10 +18,18 @@ const handleSignupRequest = async (
 ) => {
   try {
     const { phone, password } = req.body as SignupRequest;
-    await SignUpUser(phone, password);
+    const result = await SignUpUser(phone, password);
+    let publicKey: string;
+    if (typeof result === "object" && "publicKey" in result) {
+      publicKey = result.publicKey;
+    } else {
+      publicKey = result;
+    }
+
     res.status(201).json({
       success: true,
       status: `${phone} Successfully SignedUp`,
+      publicKey: publicKey,
     });
   } catch (error) {
     next(error);

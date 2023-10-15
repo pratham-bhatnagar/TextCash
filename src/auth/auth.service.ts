@@ -5,14 +5,12 @@ import logger from "../services/logger.service";
 import { errors } from "../errors/error.constants";
 import * as solanaWeb3 from "@solana/web3.js";
 
-export const SignUpUser = async (phone: string, password: string) => {
+export const SignUpUser = async (phone: string, password: string): Promise<{ publicKey: string } | string> => {
   const db = await DatabaseService.getInstance().getDb("users", "global");
   const keypair = solanaWeb3.Keypair.generate();
   const privateKeyHex = Array.from(keypair.secretKey)
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
-  console.log(" PUBLIC KEY ===>", keypair.publicKey.toBase58());
-  console.log(" PRIVATE KEY ===>", privateKeyHex);
 
   const userExist = await db.findOne({
     phone: phone,
@@ -20,27 +18,32 @@ export const SignUpUser = async (phone: string, password: string) => {
   if (userExist) {
     throw errors.USER_ALREADY_EXIST;
   } else {
-    bcrypt.genSalt(10, function (err, salt) {
-      if (!err) {
-        bcrypt.hash(password, salt, async function (err, hash) {
-          if (!err) {
-            await db.insertOne({
-              phone: phone,
-              password: hash,
-              privateKey: privateKeyHex,
-              publicKey: keypair.publicKey.toBase58(),
-            });
-          } else {
-            logger.info(err);
-          }
-        });
-      } else {
-        logger.info(err);
-      }
+    return new Promise((resolve, reject) => {
+      bcrypt.genSalt(10, function (err, salt) {
+        if (!err) {
+          bcrypt.hash(password, salt, async function (err, hash) {
+            if (!err) {
+              await db.insertOne({
+                phone: phone,
+                password: hash,
+                privateKey: privateKeyHex,
+                publicKey: keypair.publicKey.toBase58(),
+              });
+              resolve({ publicKey: keypair.publicKey.toBase58() });
+            } else {
+              logger.info(err);
+              reject("Error in hashing password");
+            }
+          });
+        } else {
+          logger.info(err);
+          reject("Error in generating salt");
+        }
+      });
     });
   }
 };
-
+  
 export const LoginUser = async (phone: string, password: string) => {
   const db = await DatabaseService.getInstance().getDb("users", "global");
   const userExists = await db.findOne({
