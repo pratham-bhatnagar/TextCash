@@ -54,11 +54,33 @@ export const getPrivateKey = async (
   }
 };
 
-
 export const getSolanaPrice = async () => {
   const response = await fetch(
     "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
   );
   const data = await response.json();
   return data.solana.usd;
-}
+};
+
+export const getTransactionHistory = async (address: string) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "getSignaturesForAddress",
+    params: [address, { limit: 100 }],
+  });
+
+  const requestOptions: RequestInit = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  const response = await fetch("https://api.devnet.solana.com", requestOptions);
+  const data = await response.json();
+  return data;
+};
