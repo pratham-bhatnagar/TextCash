@@ -5,8 +5,13 @@ import logger from "../services/logger.service";
 import { errors } from "../errors/error.constants";
 import * as solanaWeb3 from "@solana/web3.js";
 
-export const SignUpUser = async (phone: string, password: string): Promise<{ publicKey: string } | string> => {
+export const SignUpUser = async (
+  phone: string,
+  password: string
+): Promise<{ publicKey: string } | string> => {
   const db = await DatabaseService.getInstance().getDb("users", "global");
+  const currentTime = new Date();
+  const logoutTime = new Date(currentTime.getTime() + 15 * 60 * 1000); // 15 minutes in milliseconds
   const keypair = solanaWeb3.Keypair.generate();
   const privateKeyHex = Array.from(keypair.secretKey)
     .map((byte) => byte.toString(16).padStart(2, "0"))
@@ -28,6 +33,7 @@ export const SignUpUser = async (phone: string, password: string): Promise<{ pub
                 password: hash,
                 privateKey: privateKeyHex,
                 publicKey: keypair.publicKey.toBase58(),
+                sessionTimeout: logoutTime,
               });
               resolve({ publicKey: keypair.publicKey.toBase58() });
             } else {
@@ -43,19 +49,27 @@ export const SignUpUser = async (phone: string, password: string): Promise<{ pub
     });
   }
 };
-  
+
 export const LoginUser = async (phone: string, password: string) => {
   const db = await DatabaseService.getInstance().getDb("users", "global");
-  const userExists = await db.findOne({
+  const currentTime = new Date();
+  const logoutTime = new Date(currentTime.getTime() + 15 * 60 * 1000); // 15 minutes in milliseconds
+  const user = await db.findOne({
     phone: phone,
   });
-  if (!userExists) {
+  if (!user) {
     logger.info(errors.USER_NOT_FOUND);
     throw errors.USER_NOT_FOUND;
   } else {
-    const valid = await bcrypt.compare(password, userExists?.password);
+    const valid = await bcrypt.compare(password, user?.password);
     if (valid) {
-      return userExists;
+      db.updateOne(
+        { phone },
+        {
+          $set: { sessionTimeout: logoutTime },
+        }
+      );
+      return user;
     } else {
       logger.info(errors.INVALID_PASSWORD);
       throw errors.INVALID_PASSWORD;
