@@ -3,6 +3,7 @@ import { OPENAI_API_KEY } from "../constants";
 import {
   get_balance,
   get_current_price,
+  get_transactions,
   request_crypto,
   send_crypto,
   send_to_phoneno,
@@ -106,6 +107,7 @@ export const chat = createChat({
           },
           unit: { type: "string" },
         },
+        required: ["reuestedPhoneNo", "userPhoneNo", "amount"],
       },
       function: async ({ amount, userPhoneNo, reuestedPhoneNo }) => {
         const res = await request_crypto(amount, userPhoneNo, reuestedPhoneNo);
@@ -134,9 +136,36 @@ export const chat = createChat({
           },
           unit: { type: "string" },
         },
+        required: ["sendToPhoneNo", "fromPhoneNo", "amount"],
       },
       function: async ({ amount, fromPhoneNo, sendToPhoneNo }) => {
         const res = await send_to_phoneno(amount, fromPhoneNo, sendToPhoneNo);
+        return res;
+      },
+    },
+
+    {
+      name: "get_transactions",
+      description:
+        "to get the last transaction history of user. Take the signature ans show as https://explorer.solana.com/tx/<signature> for each transaction",
+      parameters: {
+        type: "object",
+        properties: {
+          phoneNo: {
+            type: "string",
+            description: "Phone no of user sending prompt and money",
+          },
+          limit: {
+            type: "string",
+            description:
+              "optional property for limiting number of transactions to be shown",
+          },
+          unit: { type: "string" },
+        },
+        required: ["phoneNo"],
+      },
+      function: async ({ phoneNo, limit }) => {
+        const res = await get_transactions(phoneNo, limit);
         return res;
       },
     },

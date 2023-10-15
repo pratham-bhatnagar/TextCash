@@ -67,7 +67,10 @@ export const getSolanaPrice = async () => {
   return data.solana.usd;
 };
 
-export const getTransactionHistory = async (address: string) => {
+export const getTransactionHistory = async (
+  address: string,
+  limit: number | null
+) => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
@@ -75,7 +78,7 @@ export const getTransactionHistory = async (address: string) => {
     jsonrpc: "2.0",
     id: 1,
     method: "getSignaturesForAddress",
-    params: [address, { limit: 100 }],
+    params: [address, { limit: limit ?? 100 }],
   });
 
   const requestOptions: RequestInit = {

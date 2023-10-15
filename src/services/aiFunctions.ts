@@ -1,5 +1,9 @@
 import { sendSMS } from "../lib/twilio";
-import { getBalnace, getSolanaPrice } from "../solana-get/solana.service";
+import {
+  getBalnace,
+  getSolanaPrice,
+  getTransactionHistory,
+} from "../solana-get/solana.service";
 import { Transfer } from "../solana-write/solana.service";
 
 export const get_balance = async (phoneNo: string) => {
@@ -105,6 +109,19 @@ export const send_to_phoneno = async (
         message: `${sendToPhoneNo} has not signed up for TextWallet. We have sent them an invite. Try again once they have signed up`,
       };
     }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error,
+    };
+  }
+};
+
+export const get_transactions = async (phoneNo: string, limit: number) => {
+  try {
+    const { publicKey } = await getBalnace(phoneNo);
+    const transactions = await getTransactionHistory(publicKey!, limit);
+    return { success: true, transactions };
   } catch (error: any) {
     return {
       success: false,
