@@ -1,6 +1,10 @@
 import { createChat } from "completions";
 import { OPENAI_API_KEY } from "../constants";
-import { get_balance, send_crypto } from "../services/aiFunctions";
+import {
+  get_balance,
+  get_current_price,
+  send_crypto,
+} from "../services/aiFunctions";
 
 export const chat = createChat({
   apiKey: OPENAI_API_KEY,
@@ -53,6 +57,26 @@ export const chat = createChat({
       },
       function: async ({ phoneNo, toAddress, amount }) => {
         const res = await send_crypto(phoneNo, toAddress, amount);
+        return res;
+      },
+    },
+
+    {
+      name: "get_current_price",
+      description:
+        "Get current price / value of solana crypto tokens . If user gives amount of solana give price for that",
+      parameters: {
+        type: "object",
+        properties: {
+          amount: {
+            type: "string",
+            description: "Amount of solana",
+          },
+          unit: { type: "string" },
+        },
+      },
+      function: async ({ amount }) => {
+        const res = await get_current_price(amount);
         return res;
       },
     },
