@@ -12,7 +12,7 @@ const handleTransferRequest = async (
 ) => {
   try {
     const { phone, to, amount, password } = req.body as TransferRequest;
-    const txHash = await Transfer(phone, password, to, amount);
+    const txHash = await Transfer(phone, to, amount);
 
     res.status(201).json({
       success: true,

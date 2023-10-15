@@ -89,11 +89,14 @@ app.post("/message", async function (req, res, next) {
   }
   console.log(REPLY);
 
+  //for debugging
+  res.send(REPLY);
+
   //twilio logic
-  const { MessagingResponse } = twiml;
-  const sms = new MessagingResponse();
-  sms.message(REPLY);
-  res.type("text/xml").send(sms.toString());
+  // const { MessagingResponse } = twiml;
+  // const sms = new MessagingResponse();
+  // sms.message(REPLY);
+  // res.type("text/xml").send(sms.toString());
 });
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {

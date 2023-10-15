@@ -1,7 +1,6 @@
-import { createChat, CancelledCompletionError } from "completions";
+import { createChat } from "completions";
 import { OPENAI_API_KEY } from "../constants";
-import { SignUpUser } from "../auth/auth.service";
-import { getBalnace } from "../solana-get/solana.service";
+import { get_balance, send_crypto } from "../services/aiFunctions";
 
 export const chat = createChat({
   apiKey: OPENAI_API_KEY,
@@ -9,14 +8,14 @@ export const chat = createChat({
   functions: [
     {
       name: "get_balance",
-      description: "Get the current balance of user wallet",
+      description: "Get the current balance or wallet address of user wallet",
       parameters: {
         type: "object",
         properties: {
           phoneNo: {
             type: "string",
             description:
-              "Returns wallet address and balance for a phone number of user. Balance of wallet will be in SOL example 10 Sol",
+              "Returns wallet address and balance for a phone number of user. Balance of wallet will be in SOL example 10 Sol . ",
           },
           unit: { type: "string" },
         },
@@ -27,20 +26,36 @@ export const chat = createChat({
         return res;
       },
     },
+
+    {
+      name: "send_crypto",
+      description:
+        "Send solana [SOL] crypto money to another wallet address from your phone number. Send a confirmation on transaction success by sending explorer link else tell transaction failed",
+      parameters: {
+        type: "object",
+        properties: {
+          phoneNo: {
+            type: "string",
+            description: "Phone no of user from which money will be sent",
+          },
+          toAddress: {
+            type: "string",
+            description: "the address to which crypto money will be sent",
+          },
+          amount: {
+            type: "number",
+            description: "the amount of SOL crypto that needs to be sent",
+          },
+
+          unit: { type: "string" },
+        },
+        required: ["phoneNo", "toAddress", "amount"],
+      },
+      function: async ({ phoneNo, toAddress, amount }) => {
+        const res = await send_crypto(phoneNo, toAddress, amount);
+        return res;
+      },
+    },
   ],
   functionCall: "auto",
 });
-
-const get_balance = async (phoneNo: string) => {
-  try {
-    const { balance, publicKey } = await getBalnace(phoneNo);
-    return {
-      walletExits: true,
-      balance: balance,
-      publicKey,
-      phoneNo: phoneNo,
-    };
-  } catch (error: any) {
-    return error;
-  }
-};
