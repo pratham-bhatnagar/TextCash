@@ -6,6 +6,8 @@ import cors from "cors";
 import logger from "./services/logger.service";
 import errorHandler from "./errors/error.handler";
 import AuthRoutes from "./auth/auth.routes";
+import SolanaGet from './solana-get/solana.routes'
+import SolanaWrite from './solana-write/solana.routes'
 
 config();
 
@@ -22,6 +24,8 @@ app.use(
 );
 
 app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/solget", SolanaGet);
+app.use("/api/v1/solwrite", SolanaWrite);
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.json({
