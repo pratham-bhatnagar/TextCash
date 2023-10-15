@@ -21,7 +21,10 @@ export const getBalnace = async (phone: string) => {
     );
     const publicKey = new solanaWeb3.PublicKey(userExists.publicKey);
     const balance = await connection.getBalance(publicKey);
-    return { balance: balance, publicKey: publicKey.toBase58() };
+    return {
+      balance: balance / solanaWeb3.LAMPORTS_PER_SOL,
+      publicKey: publicKey.toBase58(),
+    };
   }
 };
 

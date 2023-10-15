@@ -122,13 +122,11 @@ export const chat = createChat({
         properties: {
           fromPhoneNo: {
             type: "string",
-            description:
-              "mobile phone number of user requesting the amount and raising the request",
+            description: "Phone no of user sending prompt and money",
           },
           sendToPhoneNo: {
             type: "string",
-            description:
-              "mobile phone number of user to which we want to send money",
+            description: "mobile phone number of receiver",
           },
           amount: {
             type: "number",
@@ -137,8 +135,8 @@ export const chat = createChat({
           unit: { type: "string" },
         },
       },
-      function: async ({ amount, userPhoneNo, reuestedPhoneNo }) => {
-        const res = await send_to_phoneno(amount, userPhoneNo, reuestedPhoneNo);
+      function: async ({ amount, fromPhoneNo, sendToPhoneNo }) => {
+        const res = await send_to_phoneno(amount, fromPhoneNo, sendToPhoneNo);
         return res;
       },
     },
