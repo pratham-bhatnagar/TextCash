@@ -67,7 +67,9 @@ Arey images ki jagah ya bhi daal sakte
 
 ## Example Prompts
 > How can I export my wallet
-<Sent from your Twilio trial account - To export your text wallet to Phantom wallet, you will need to follow these steps:
+
+```
+Sent from your Twilio trial account - To export your text wallet to Phantom wallet, you will need to follow these steps:
 
 1. Install the Phantom wallet app on your device.
 2. Open the app and create a new wallet.
@@ -79,3 +81,4 @@ Private Key: ed68c79bba1ad7ec26cc7f9ae4f69df40e7a07e7acb36f597c750fada3caac6098e
 
 6. Follow the on-screen instructions to complete the import process.
 7. Once imported, your text wallet will be available in the Phantom wallet app, and you can access your funds and perform transactions from there.
+```
