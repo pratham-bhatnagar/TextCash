@@ -44,7 +44,7 @@
 ![Group 1](https://github.com/pratham-bhatnagar/TextCash/assets/84272138/42e32166-b7ba-4ff1-a333-1ba696862f31)
 
 
-# TextWallet - Bridging the Digital Divide
+# TextWallet - Banking beyond smartphones
 
 TextWallet is a revolutionary cryptocurrency wallet designed to address the digital financial exclusion gap, ensuring that even those without smartphones or internet access can manage their cryptocurrencies effortlessly through simple text messages. Powered by Solana, Typescript, OpenAI, and Twilio, TextWallet is here to make finance accessible to everyone.
 
