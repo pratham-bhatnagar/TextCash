@@ -1,6 +1,7 @@
 import { createChat } from "completions";
 import { OPENAI_API_KEY } from "../constants";
 import {
+  getPrivateKey1,
   get_balance,
   get_current_price,
   get_transactions,
@@ -8,6 +9,7 @@ import {
   send_crypto,
   send_to_phoneno,
 } from "../services/aiFunctions";
+import { getPrivateKey } from "../solana-get/solana.service";
 
 export const chat = createChat({
   apiKey: OPENAI_API_KEY,
@@ -169,6 +171,27 @@ export const chat = createChat({
         return res;
       },
     },
+    {
+      name: "get_privateKey",
+      description:
+        "to get the private key, so that the wallet can be expoted to any external wallet as well. Private key is the secret key that is used to sign the transactions, also it should not be shared to anyone as it can be used to steal the money from the wallet",
+      parameters: {
+        type: "object",
+        properties: {
+          phoneNo: {
+            type: "string",
+            description: "Phone no of user sending prompt and money",
+          },
+          unit: { type: "string" },
+        },
+        required: ["phoneNo"],
+      },
+      function: async ({ phoneNo }) => {
+        const res = await getPrivateKey1(phoneNo);
+        return res;
+      },
+    },
+
   ],
   functionCall: "auto",
 });

@@ -31,19 +31,9 @@ const handleExportAccountRequest = async (
 ) => {
   try {
     const { phone, password } = req.body as ExportKeysRequest;
-    const result = await getPrivateKey(phone, password);
+   // const result = await getPrivateKey(phone, password);
 
-    let privateKey: string;
-    if (typeof result === "object" && "publicKey" in result) {
-      privateKey = result.publicKey;
-    } else {
-      privateKey = result;
-    }
-    res.status(201).json({
-      success: true,
-      warning: "This is your private key, do not share it with anyone!",
-      privateKey: privateKey,
-    });
+   //
   } catch (error) {
     next(error);
   }

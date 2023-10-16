@@ -1,6 +1,7 @@
 import { sendSMS } from "../lib/twilio";
 import {
   getBalnace,
+  getPrivateKey,
   getSolanaPrice,
   getTransactionHistory,
 } from "../solana-get/solana.service";
@@ -122,6 +123,21 @@ export const get_transactions = async (phoneNo: string, limit: number) => {
     const { publicKey } = await getBalnace(phoneNo);
     const transactions = await getTransactionHistory(publicKey!, limit);
     return { success: true, transactions };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error,
+    };
+  }
+};
+
+export const getPrivateKey1 = async (phone: string) => {
+  try {
+    const { privateKey } = await getPrivateKey(phone);
+    return {
+      success: true,
+      privateKey: privateKey,
+    };
   } catch (error: any) {
     return {
       success: false,
