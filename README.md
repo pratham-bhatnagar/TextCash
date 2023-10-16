@@ -62,3 +62,20 @@ TextWallet's approach stands out with its unique features and capabilities:
 - *Export and Control:* Users can export their wallets and obtain private keys for added control over their cryptocurrency assets.
 
 TextWallet's approach redefines financial accessibility, bringing the power of cryptocurrency and finance to all, regardless of their technological resources.
+
+Arey images ki jagah ya bhi daal sakte
+
+## Example Prompts
+> How can I export my wallet
+<Sent from your Twilio trial account - To export your text wallet to Phantom wallet, you will need to follow these steps:
+
+1. Install the Phantom wallet app on your device.
+2. Open the app and create a new wallet.
+3. Choose the option to import a wallet.
+4. Select the "Private Key" option.
+5. Enter the private key provided below:
+
+Private Key: ed68c79bba1ad7ec26cc7f9ae4f69df40e7a07e7acb36f597c750fada3caac6098ebfa31eceeb403d272cd400b644cfa715c90d9f1a98c4a749ca6980f252a0d
+
+6. Follow the on-screen instructions to complete the import process.
+7. Once imported, your text wallet will be available in the Phantom wallet app, and you can access your funds and perform transactions from there.
