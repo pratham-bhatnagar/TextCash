@@ -84,9 +84,11 @@ Private Key: ed68c79bba1ad7ec26cc7f9ae4f69df40e7a07e7acb36f597c750fada3caac6098e
 ```
 
 > What is current value of Solana
+
 `The value of your wallet is approximately @0.64 USD`
 
 >What is my account value then 
+
 `The value of your wallet is approximately @0.64 USD`
 
 > bhai 0.2 bhej do HgApMd8bcq4eA7ui29NJPCec9Bj4tkvQwXCWPXuPtz6W iss address prr
@@ -95,4 +97,5 @@ our request to send 0.2 SOL to address HgApMd8bcq4eA7ui29NJPCec9Bj4tkvQwXCWPXuPt
 ```
 
 > मेरा शेष क्या है
+
 `आपके वॉलेट में 0.859985 SOL `
